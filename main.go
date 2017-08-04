@@ -1,47 +1,30 @@
 package main
 
 import (
-	"fmt"
-	"html/template"
-	"net/http"
-	"os"
-
-	"github.com/gorilla/pat"
-	"github.com/markbates/goth"
-	"github.com/markbates/goth/gothic"
-	"github.com/markbates/goth/providers/github"
+	"github.com/kataras/iris"
+	"github.com/kataras/iris/context"
 )
 
+type mypage struct {
+	Title   string
+	Message string
+}
+
 func main() {
-	goth.UseProviders(
-		github.New(os.Getenv("GITHUB_KEY"), os.Getenv("GITHUB_SECRET"), "http://localhost:3000/auth/github/callback"),
-	)
+	app := iris.New()
 
-	p := pat.New()
-	p.Get("/auth/{provider}/callback", func(res http.ResponseWriter, req *http.Request) {
-		user, err := gothic.CompleteUserAuth(res, req)
-		if err != nil {
-			fmt.Fprintln(res, err)
-			return
-		}
-		t := template.Must(template.ParseFiles("tmpl/user.html"))
-		t.Execute(res, user)
+	app.RegisterView(iris.HTML("./templates", ".html").Layout("layout.html"))
+	// TIP: append .Reload(true) to reload the templates on each request.
+
+	app.Get("/", func(ctx context.Context) {
+		ctx.Gzip(true)
+		ctx.ViewData("", mypage{"My Page title", "Hello world!"})
+		ctx.View("mypage.html")
+		// Note that: you can pass "layout" : "otherLayout.html" to bypass the config's Layout property
+		// or view.NoLayout to disable layout on this render action.
+		// third is an optional parameter
 	})
 
-	p.Get("/auth/{provider}", func(res http.ResponseWriter, req *http.Request) {
-		// try to get the user without re-authenticating
-		if gothUser, err := gothic.CompleteUserAuth(res, req); err == nil {
-			t := template.Must(template.ParseFiles("tmpl/user.html"))
-			t.Execute(res, gothUser)
-		} else {
-			gothic.BeginAuthHandler(res, req)
-		}
-	})
-
-	p.Get("/", func(res http.ResponseWriter, req *http.Request) {
-		t := template.Must(template.ParseFiles("tmpl/index.html"))
-		t.Execute(res, nil)
-	})
-	
-	http.ListenAndServe(":3000", p)
+	// http://localhost:8080
+	app.Run(iris.Addr(":8080"))
 }
