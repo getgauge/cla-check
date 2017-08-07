@@ -193,6 +193,7 @@ func Logout(ctx context.Context) error {
 
 // End of the "some function helpers".
 
+// User data stored after signing the cla
 type User struct {
 	Name        string
 	Email       string
