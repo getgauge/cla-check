@@ -1,4 +1,5 @@
-alliscla
 main
 .vscode/
 contributors
+vendor/
+cla-check
