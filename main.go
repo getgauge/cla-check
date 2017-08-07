@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/gorilla/securecookie" // optionally, used for session's encoder/decoder
@@ -205,6 +206,11 @@ type User struct {
 
 func main() {
 
+	port := os.Getenv("PORT")
+
+	if port == "" {
+		log.Fatal("$PORT must be set")
+	}
 	// create a new scribble database, providing a destination for the database to live
 	db, _ := scribble.New("./contributors", nil)
 
@@ -279,5 +285,5 @@ func main() {
 	})
 
 	// http://localhost:3000
-	app.Run(iris.Addr("localhost:3000"))
+	app.Run(iris.Addr(":" + port))
 }
