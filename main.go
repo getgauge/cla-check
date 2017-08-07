@@ -217,7 +217,6 @@ func main() {
 	app := iris.New()
 
 	// attach and build our templates
-	app.StaticWeb("/static", "./resources")
 	app.RegisterView(iris.HTML("./templates", ".html").Layout("layout.html").Reload(true))
 
 	// start of the router
