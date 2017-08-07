@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"os"
@@ -208,7 +209,7 @@ func main() {
 	db, _ := scribble.New("./contributors", nil)
 
 	goth.UseProviders(
-		github.New(os.Getenv("GITHUB_KEY"), os.Getenv("GITHUB_SECRET"), "http://localhost:3000/auth/github/callback"),
+		github.New(os.Getenv("GITHUB_KEY"), os.Getenv("GITHUB_SECRET"), fmt.Sprintf("%s/auth/github/callback", os.Getenv("CALLBACK_HOST"))),
 	)
 
 	// create our app,
@@ -254,6 +255,20 @@ func main() {
 			}
 		} else {
 			BeginAuthHandler(ctx)
+		}
+	})
+
+	app.Get("/contributor", func(ctx context.Context) {
+		p := ctx.URLParam("checkContributor")
+		github, _ := db.ReadAll("github")
+		// iterate over morefish creating a new fish for each record
+		for _, contributor := range github {
+			user := User{}
+			json.Unmarshal([]byte(contributor), &user)
+			if user.NickName == p {
+				ctx.JSON(map[string]bool{"isContributor": true})
+				break
+			}
 		}
 	})
 
