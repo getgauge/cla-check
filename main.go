@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"os"
 
 	"github.com/gorilla/securecookie" // optionally, used for session's encoder/decoder
@@ -10,6 +11,7 @@ import (
 	"github.com/kataras/iris/sessions"
 	"github.com/markbates/goth"
 	"github.com/markbates/goth/providers/github"
+	"github.com/nanobox-io/golang-scribble"
 )
 
 var sessionsManager *sessions.Sessions
@@ -191,7 +193,19 @@ func Logout(ctx context.Context) error {
 
 // End of the "some function helpers".
 
+type User struct {
+	Name        string
+	Email       string
+	NickName    string
+	UserID      string
+	Description string
+}
+
 func main() {
+
+	// create a new scribble database, providing a destination for the database to live
+	db, _ := scribble.New("./contributors", nil)
+
 	goth.UseProviders(
 		github.New(os.Getenv("GITHUB_KEY"), os.Getenv("GITHUB_SECRET"), "http://localhost:3000/auth/github/callback"),
 	)
@@ -215,6 +229,11 @@ func main() {
 			ctx.Writef("%v", err)
 			return
 		}
+
+		if err := db.Write("github", user.UserID, User{user.Name, user.Email, user.NickName, user.UserID, user.Description}); err != nil {
+			fmt.Println("Error", err)
+		}
+
 		ctx.ViewData("", user)
 		if err := ctx.View("user.html"); err != nil {
 			ctx.Writef("%v", err)
@@ -228,8 +247,8 @@ func main() {
 
 	app.Get("/auth/{provider}", func(ctx context.Context) {
 		// try to get the user without re-authenticating
-		if gothUser, err := CompleteUserAuth(ctx); err == nil {
-			ctx.ViewData("", gothUser)
+		if u, err := CompleteUserAuth(ctx); err == nil {
+			ctx.ViewData("", u)
 			if err := ctx.View("user.html"); err != nil {
 				ctx.Writef("%v", err)
 			}
