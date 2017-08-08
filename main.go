@@ -262,7 +262,7 @@ func main() {
 			json.Unmarshal([]byte(contributor), &user)
 			if user.NickName == p {
 				m := make(map[string]string, 0)
-				m["username"] = user.NickName
+				m["username"] = "@" + user.NickName
 				m["isContributor"] = "true"
 				ctx.JSON(m)
 				break
