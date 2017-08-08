@@ -7,7 +7,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/gorilla/securecookie" // optionally, used for session's encoder/decoder
+	// optionally, used for session's encoder/decoder
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/context"
 	"github.com/kataras/iris/sessions"
@@ -17,22 +17,6 @@ import (
 )
 
 var sessionsManager *sessions.Sessions
-
-func init() {
-	// attach a session manager
-	cookieName := "mycustomsessionid"
-	// AES only supports key sizes of 16, 24 or 32 bytes.
-	// You either need to provide exactly that amount or you derive the key from what you type in.
-	hashKey := []byte("the-big-and-secret-fash-key-here")
-	blockKey := []byte("lot-secret-of-characters-big-too")
-	secureCookie := securecookie.New(hashKey, blockKey)
-
-	sessionsManager = sessions.New(sessions.Config{
-		Cookie: cookieName,
-		Encode: secureCookie.Encode,
-		Decode: secureCookie.Decode,
-	})
-}
 
 // These are some function helpers that you may use if you want
 
@@ -193,9 +177,7 @@ func Logout(ctx context.Context) error {
 	return nil
 }
 
-// End of the "some function helpers".
-
-// User data stored after signing the cla
+// User data from Github after signing the CLA
 type User struct {
 	Name        string
 	Email       string
@@ -205,29 +187,21 @@ type User struct {
 }
 
 func main() {
-
 	port := os.Getenv("PORT")
-
 	if port == "" {
 		log.Fatal("$PORT must be set")
 	}
-	// create a new scribble database, providing a destination for the database to live
+
 	db, _ := scribble.New("./contributors", nil)
 
 	goth.UseProviders(
 		github.New(os.Getenv("GITHUB_KEY"), os.Getenv("GITHUB_SECRET"), fmt.Sprintf("%s/auth/github/callback", os.Getenv("CALLBACK_HOST"))),
 	)
 
-	// create our app,
-	// set a view
-	// set sessions
-	// and setup the router for the showcase
 	app := iris.New()
 
-	// attach and build our templates
+	app.StaticWeb("/static", "./resources")
 	app.RegisterView(iris.HTML("./templates", ".html").Layout("layout.html").Reload(true))
-
-	// start of the router
 
 	app.Get("/auth/{provider}/callback", func(ctx context.Context) {
 		user, err := CompleteUserAuth(ctx)
@@ -267,7 +241,6 @@ func main() {
 	app.Get("/contributor", func(ctx context.Context) {
 		p := ctx.URLParam("checkContributor")
 		github, _ := db.ReadAll("github")
-		// iterate over morefish creating a new fish for each record
 		for _, contributor := range github {
 			user := User{}
 			json.Unmarshal([]byte(contributor), &user)
@@ -284,6 +257,5 @@ func main() {
 		}
 	})
 
-	// http://localhost:3000
 	app.Run(iris.Addr(":" + port))
 }
