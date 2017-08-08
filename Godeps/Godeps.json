@@ -54,11 +54,6 @@
 			"Rev": "58f1f3387f7c57843ff829d92a759d08abe5a63f"
 		},
 		{
-			"ImportPath": "github.com/gorilla/securecookie",
-			"Comment": "v1.1-6-ge59506c",
-			"Rev": "e59506cc896acb7f7bf732d4fdf5e25f7ccd8983"
-		},
-		{
 			"ImportPath": "github.com/jcelliott/lumber",
 			"Rev": "dd349441af25132d146d7095c6693a15431fc9b1"
 		},
