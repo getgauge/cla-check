@@ -8,6 +8,7 @@ import (
 	"os"
 
 	// optionally, used for session's encoder/decoder
+	"github.com/gorilla/securecookie"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/context"
 	"github.com/kataras/iris/sessions"
@@ -19,6 +20,21 @@ import (
 var sessionsManager *sessions.Sessions
 
 // These are some function helpers that you may use if you want
+func init() {
+	// attach a session manager
+	cookieName := "mycustomsessionid"
+	// AES only supports key sizes of 16, 24 or 32 bytes.
+	// You either need to provide exactly that amount or you derive the key from what you type in.
+	hashKey := []byte("the-big-and-secret-fash-key-here")
+	blockKey := []byte("lot-secret-of-characters-big-too")
+	secureCookie := securecookie.New(hashKey, blockKey)
+
+	sessionsManager = sessions.New(sessions.Config{
+		Cookie: cookieName,
+		Encode: secureCookie.Encode,
+		Decode: secureCookie.Decode,
+	})
+}
 
 // GetProviderName is a function used to get the name of a provider
 // for a given request. By default, this provider is fetched from
