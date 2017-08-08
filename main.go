@@ -261,7 +261,7 @@ func main() {
 			user := User{}
 			json.Unmarshal([]byte(contributor), &user)
 			if user.NickName == p {
-				ctx.JSON(map[string]bool{"isContributor": true})
+				ctx.JSON(map[string]string{"isContributor": "true"})
 				break
 			}
 		}
