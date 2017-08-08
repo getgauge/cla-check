@@ -270,6 +270,17 @@ func main() {
 		}
 	})
 
+	app.Get("/contributors", func(ctx context.Context) {
+		github, _ := db.ReadAll("github")
+		contributors := make([]string, 0, 0)
+		for _, contributor := range github {
+			user := User{}
+			json.Unmarshal([]byte(contributor), &user)
+			contributors = append(contributors, user.NickName)
+		}
+		ctx.JSON(contributors)
+	})
+
 	app.Get("/", func(ctx context.Context) {
 		if err := ctx.View("cla.html"); err != nil {
 			ctx.Writef("%v", err)
