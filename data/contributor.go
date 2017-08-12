@@ -23,7 +23,7 @@ var database *gorm.DB
 
 // Init the database
 func Init() *gorm.DB {
-	db, err := gorm.Open(dialect(), os.Getenv("DB_CONNECTION"))
+	db, err := gorm.Open(dialect(), connection())
 
 	if err != nil {
 		fmt.Println(err)
@@ -37,16 +37,21 @@ func Init() *gorm.DB {
 
 // Save user to a postgres db
 func Save(user User) {
-	database.Save(user)
+	var count int
+	database.Model(&User{}).Where("user_id = ?", user.UserID).Count(&count)
+	if count == 0 {
+		database.Save(user)
+	}
 }
 
-// IsCommitter check if a github user is registered with the DB
-func IsCommitter(nickname string) bool {
+// Signed check if a github user is registered with the DB
+func Signed(nickName string) bool {
 	result := User{}
-	database.Where("nick_name = ?", "IronMan").First(&result)
-	return result.NickName == nickname
+	database.Where("nick_name = ?", nickName).First(&result)
+	return result.NickName == nickName
 }
 
+//TODO: Move environment variables to a configuration package
 func dialect() string {
 	return environmentVariable("DB_DIALECT")
 }

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"log"
@@ -9,12 +8,13 @@ import (
 
 	// optionally, used for session's encoder/decoder
 	"github.com/gorilla/securecookie"
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/context"
 	"github.com/kataras/iris/sessions"
 	"github.com/markbates/goth"
 	"github.com/markbates/goth/providers/github"
-	"github.com/nanobox-io/golang-scribble"
+	"github.com/zabil/cla-check/data"
 )
 
 var sessionsManager *sessions.Sessions
@@ -193,13 +193,62 @@ func Logout(ctx context.Context) error {
 	return nil
 }
 
-// User data from Github after signing the CLA
-type User struct {
-	Name        string
-	Email       string
-	NickName    string
-	UserID      string
-	Description string
+// Handlers
+
+func contributorHandler(ctx context.Context) {
+	nickName := ctx.URLParam("checkContributor")
+	m := make(map[string]string, 0)
+
+	if data.Signed(nickName) {
+		m["username"] = nickName
+		m["isContributor"] = "true"
+	}
+
+	ctx.JSON(m)
+}
+
+func logoutHandler(ctx context.Context) {
+	Logout(ctx)
+	ctx.Redirect("/", iris.StatusTemporaryRedirect)
+}
+
+func authCallbackHandler(ctx context.Context) {
+	user, err := CompleteUserAuth(ctx)
+	if err != nil {
+		ctx.StatusCode(iris.StatusInternalServerError)
+		ctx.Writef("%v", err)
+		return
+	}
+
+	data.Save(data.User{
+		Name:        user.Name,
+		Email:       user.Email,
+		NickName:    user.NickName,
+		UserID:      user.UserID,
+		Description: user.Description})
+
+	ctx.ViewData("", user)
+	if err := ctx.View("user.html"); err != nil {
+		ctx.Writef("%v", err)
+	}
+}
+
+func providerHandler(ctx context.Context) {
+	// try to get the user without re-authenticating
+	if u, err := CompleteUserAuth(ctx); err == nil {
+		ctx.ViewData("", u)
+		if err := ctx.View("user.html"); err != nil {
+			ctx.Writef("%v", err)
+		}
+	} else {
+		BeginAuthHandler(ctx)
+	}
+}
+
+func defaultHandler(ctx context.Context) {
+	if err := ctx.View("cla.html"); err != nil {
+		ctx.Writef("%v", err)
+	}
 }
 
 func main() {
@@ -208,7 +257,8 @@ func main() {
 		log.Fatal("$PORT must be set")
 	}
 
-	db, _ := scribble.New("./contributors", nil)
+	db := data.Init()
+	defer db.Close()
 
 	goth.UseProviders(
 		github.New(os.Getenv("GITHUB_KEY"), os.Getenv("GITHUB_SECRET"), fmt.Sprintf("%s/auth/github/callback", os.Getenv("CALLBACK_HOST"))),
@@ -217,75 +267,13 @@ func main() {
 	app := iris.New()
 
 	app.StaticWeb("/static", "./resources")
-	app.RegisterView(iris.HTML("./templates", ".html").Layout("layout.html").Reload(true))
+	app.RegisterView(iris.HTML("./templates", ".html").Layout("layout.html"))
 
-	app.Get("/auth/{provider}/callback", func(ctx context.Context) {
-		user, err := CompleteUserAuth(ctx)
-		if err != nil {
-			ctx.StatusCode(iris.StatusInternalServerError)
-			ctx.Writef("%v", err)
-			return
-		}
-
-		if err := db.Write("github", user.UserID, User{user.Name, user.Email, user.NickName, user.UserID, user.Description}); err != nil {
-			fmt.Println("Error", err)
-		}
-
-		ctx.ViewData("", user)
-		if err := ctx.View("user.html"); err != nil {
-			ctx.Writef("%v", err)
-		}
-	})
-
-	app.Get("/logout/{provider}", func(ctx context.Context) {
-		Logout(ctx)
-		ctx.Redirect("/", iris.StatusTemporaryRedirect)
-	})
-
-	app.Get("/auth/{provider}", func(ctx context.Context) {
-		// try to get the user without re-authenticating
-		if u, err := CompleteUserAuth(ctx); err == nil {
-			ctx.ViewData("", u)
-			if err := ctx.View("user.html"); err != nil {
-				ctx.Writef("%v", err)
-			}
-		} else {
-			BeginAuthHandler(ctx)
-		}
-	})
-
-	app.Get("/contributor", func(ctx context.Context) {
-		p := ctx.URLParam("checkContributor")
-		github, _ := db.ReadAll("github")
-		for _, contributor := range github {
-			user := User{}
-			json.Unmarshal([]byte(contributor), &user)
-			if user.NickName == p {
-				m := make(map[string]string, 0)
-				m["username"] = user.NickName
-				m["isContributor"] = "true"
-				ctx.JSON(m)
-				break
-			}
-		}
-	})
-
-	app.Get("/contributors", func(ctx context.Context) {
-		github, _ := db.ReadAll("github")
-		contributors := make([]string, 0, 0)
-		for _, contributor := range github {
-			user := User{}
-			json.Unmarshal([]byte(contributor), &user)
-			contributors = append(contributors, user.NickName)
-		}
-		ctx.JSON(contributors)
-	})
-
-	app.Get("/", func(ctx context.Context) {
-		if err := ctx.View("cla.html"); err != nil {
-			ctx.Writef("%v", err)
-		}
-	})
+	app.Get("/", defaultHandler)
+	app.Get("/auth/{provider}", providerHandler)
+	app.Get("/auth/{provider}/callback", authCallbackHandler)
+	app.Get("/logout/{provider}", logoutHandler)
+	app.Get("/contributor", contributorHandler)
 
 	app.Run(iris.Addr(":" + port))
 }

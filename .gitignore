@@ -2,3 +2,4 @@ main
 .vscode/
 contributors
 cla-check
+test.db
