@@ -2,9 +2,6 @@ package main
 
 import (
 	"errors"
-	"fmt"
-	"log"
-	"os"
 
 	// optionally, used for session's encoder/decoder
 	"github.com/gorilla/securecookie"
@@ -14,6 +11,7 @@ import (
 	"github.com/kataras/iris/sessions"
 	"github.com/markbates/goth"
 	"github.com/markbates/goth/providers/github"
+	"github.com/zabil/cla-check/configuration"
 	"github.com/zabil/cla-check/data"
 )
 
@@ -252,16 +250,13 @@ func defaultHandler(ctx context.Context) {
 }
 
 func main() {
-	port := os.Getenv("PORT")
-	if port == "" {
-		log.Fatal("$PORT must be set")
-	}
+	port := configuration.Port()
 
 	db := data.Init()
 	defer db.Close()
 
 	goth.UseProviders(
-		github.New(os.Getenv("GITHUB_KEY"), os.Getenv("GITHUB_SECRET"), fmt.Sprintf("%s/auth/github/callback", os.Getenv("CALLBACK_HOST"))),
+		github.New(configuration.GithubKey(), configuration.GithubSecret(), configuration.GithubAuthCallback()),
 	)
 
 	app := iris.New()
