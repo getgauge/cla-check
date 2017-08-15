@@ -13,7 +13,7 @@ func Dialect() string {
 
 // Connection string to connect to preferred db
 func Connection() string {
-	return environmentVariable("DB_CONNECTION")
+	return environmentVariable("DATABASE_URL")
 }
 
 // Port to use for the server
