@@ -51,7 +51,6 @@ func WriteToStream(val interface{}, stream *Stream, encoder ValEncoder) {
 }
 
 var jsonNumberType reflect.Type
-var jsoniterNumberType reflect.Type
 var jsonRawMessageType reflect.Type
 var jsoniterRawMessageType reflect.Type
 var anyType reflect.Type
@@ -62,7 +61,6 @@ var textUnmarshalerType reflect.Type
 
 func init() {
 	jsonNumberType = reflect.TypeOf((*json.Number)(nil)).Elem()
-	jsoniterNumberType = reflect.TypeOf((*Number)(nil)).Elem()
 	jsonRawMessageType = reflect.TypeOf((*json.RawMessage)(nil)).Elem()
 	jsoniterRawMessageType = reflect.TypeOf((*RawMessage)(nil)).Elem()
 	anyType = reflect.TypeOf((*Any)(nil)).Elem()
@@ -282,9 +280,6 @@ func createDecoderOfType(cfg *frozenConfig, typ reflect.Type) (ValDecoder, error
 	if typ.AssignableTo(jsonNumberType) {
 		return &jsonNumberCodec{}, nil
 	}
-	if typ.AssignableTo(jsoniterNumberType) {
-		return &jsoniterNumberCodec{}, nil
-	}
 	if typ.Kind() == reflect.Slice && typ.Elem().Kind() == reflect.Uint8 {
 		sliceDecoder, err := prefix("[slice]").addToDecoder(decoderOfSlice(cfg, typ))
 		if err != nil {
@@ -447,9 +442,6 @@ func createEncoderOfType(cfg *frozenConfig, typ reflect.Type) (ValEncoder, error
 	}
 	if typ.AssignableTo(jsonNumberType) {
 		return &jsonNumberCodec{}, nil
-	}
-	if typ.AssignableTo(jsoniterNumberType) {
-		return &jsoniterNumberCodec{}, nil
 	}
 	if typ.Kind() == reflect.Slice && typ.Elem().Kind() == reflect.Uint8 {
 		return &base64Codec{}, nil

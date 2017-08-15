@@ -385,25 +385,6 @@ func (codec *jsonNumberCodec) IsEmpty(ptr unsafe.Pointer) bool {
 	return len(*((*json.Number)(ptr))) == 0
 }
 
-type jsoniterNumberCodec struct {
-}
-
-func (codec *jsoniterNumberCodec) Decode(ptr unsafe.Pointer, iter *Iterator) {
-	*((*Number)(ptr)) = Number([]byte(iter.readNumberAsString()))
-}
-
-func (codec *jsoniterNumberCodec) Encode(ptr unsafe.Pointer, stream *Stream) {
-	stream.WriteRaw(string(*((*Number)(ptr))))
-}
-
-func (codec *jsoniterNumberCodec) EncodeInterface(val interface{}, stream *Stream) {
-	stream.WriteRaw(string(val.(Number)))
-}
-
-func (codec *jsoniterNumberCodec) IsEmpty(ptr unsafe.Pointer) bool {
-	return len(*((*Number)(ptr))) == 0
-}
-
 type jsonRawMessageCodec struct {
 }
 
@@ -455,7 +436,7 @@ func (codec *base64Codec) Decode(ptr unsafe.Pointer, iter *Iterator) {
 		return
 	}
 	switch iter.WhatIsNext() {
-	case StringValue:
+	case String:
 		encoding := base64.StdEncoding
 		src := iter.SkipAndReturnBytes()
 		src = src[1 : len(src)-1]
@@ -472,7 +453,7 @@ func (codec *base64Codec) Decode(ptr unsafe.Pointer, iter *Iterator) {
 			ptrSlice.Cap = dstSlice.Cap
 			ptrSlice.Len = dstSlice.Len
 		}
-	case ArrayValue:
+	case Array:
 		codec.sliceDecoder.Decode(ptr, iter)
 	default:
 		iter.ReportError("base64Codec", "invalid input")

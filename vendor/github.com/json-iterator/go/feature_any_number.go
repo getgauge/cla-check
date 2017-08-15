@@ -10,7 +10,7 @@ type numberLazyAny struct {
 }
 
 func (any *numberLazyAny) ValueType() ValueType {
-	return NumberValue
+	return Number
 }
 
 func (any *numberLazyAny) MustBeValid() Any {

@@ -72,7 +72,7 @@ type lexer struct {
 func (t *Token) String() string {
 	val := t.Val
 	if len(val) > 1000 {
-		val = fmt.Sprintf("%s...%s", val[:10], val[len(val)-5:len(val)])
+		val = fmt.Sprintf("%s...%s", val[:10], val[len(val)-5:])
 	}
 
 	typ := ""
@@ -330,7 +330,7 @@ outer_loop:
 			return l.stateIdentifier
 		case l.accept(tokenDigits):
 			return l.stateNumber
-		case l.accept(`"'`):
+		case l.accept(`"`):
 			return l.stateString
 		}
 
@@ -396,10 +396,9 @@ func (l *lexer) stateNumber() lexerStateFn {
 }
 
 func (l *lexer) stateString() lexerStateFn {
-	quotationMark := l.value()
 	l.ignore()
 	l.startcol-- // we're starting the position at the first "
-	for !l.accept(quotationMark) {
+	for !l.accept(`"`) {
 		switch l.next() {
 		case '\\':
 			// escape sequence

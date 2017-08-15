@@ -14,7 +14,7 @@ func (any *int32Any) LastError() error {
 }
 
 func (any *int32Any) ValueType() ValueType {
-	return NumberValue
+	return Number
 }
 
 func (any *int32Any) MustBeValid() Any {

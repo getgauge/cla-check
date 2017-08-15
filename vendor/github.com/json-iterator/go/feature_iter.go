@@ -10,20 +10,20 @@ import (
 type ValueType int
 
 const (
-	// InvalidValue invalid JSON element
-	InvalidValue ValueType = iota
-	// StringValue JSON element "string"
-	StringValue
-	// NumberValue JSON element 100 or 0.10
-	NumberValue
-	// NilValue JSON element null
-	NilValue
-	// BoolValue JSON element true or false
-	BoolValue
-	// ArrayValue JSON element []
-	ArrayValue
-	// ObjectValue JSON element {}
-	ObjectValue
+	// Invalid invalid JSON element
+	Invalid ValueType = iota
+	// String JSON element "string"
+	String
+	// Number JSON element 100 or 0.10
+	Number
+	// Nil JSON element null
+	Nil
+	// Bool JSON element true or false
+	Bool
+	// Array JSON element []
+	Array
+	// Object JSON element {}
+	Object
 )
 
 var hexDigits []byte
@@ -45,25 +45,25 @@ func init() {
 	}
 	valueTypes = make([]ValueType, 256)
 	for i := 0; i < len(valueTypes); i++ {
-		valueTypes[i] = InvalidValue
+		valueTypes[i] = Invalid
 	}
-	valueTypes['"'] = StringValue
-	valueTypes['-'] = NumberValue
-	valueTypes['0'] = NumberValue
-	valueTypes['1'] = NumberValue
-	valueTypes['2'] = NumberValue
-	valueTypes['3'] = NumberValue
-	valueTypes['4'] = NumberValue
-	valueTypes['5'] = NumberValue
-	valueTypes['6'] = NumberValue
-	valueTypes['7'] = NumberValue
-	valueTypes['8'] = NumberValue
-	valueTypes['9'] = NumberValue
-	valueTypes['t'] = BoolValue
-	valueTypes['f'] = BoolValue
-	valueTypes['n'] = NilValue
-	valueTypes['['] = ArrayValue
-	valueTypes['{'] = ObjectValue
+	valueTypes['"'] = String
+	valueTypes['-'] = Number
+	valueTypes['0'] = Number
+	valueTypes['1'] = Number
+	valueTypes['2'] = Number
+	valueTypes['3'] = Number
+	valueTypes['4'] = Number
+	valueTypes['5'] = Number
+	valueTypes['6'] = Number
+	valueTypes['7'] = Number
+	valueTypes['8'] = Number
+	valueTypes['9'] = Number
+	valueTypes['t'] = Bool
+	valueTypes['f'] = Bool
+	valueTypes['n'] = Nil
+	valueTypes['['] = Array
+	valueTypes['{'] = Object
 }
 
 // Iterator is a io.Reader like object, with JSON specific read functions.
@@ -270,26 +270,26 @@ func (iter *Iterator) unreadByte() {
 func (iter *Iterator) Read() interface{} {
 	valueType := iter.WhatIsNext()
 	switch valueType {
-	case StringValue:
+	case String:
 		return iter.ReadString()
-	case NumberValue:
+	case Number:
 		if iter.cfg.configBeforeFrozen.UseNumber {
 			return json.Number(iter.readNumberAsString())
 		}
 		return iter.ReadFloat64()
-	case NilValue:
+	case Nil:
 		iter.skipFourBytes('n', 'u', 'l', 'l')
 		return nil
-	case BoolValue:
+	case Bool:
 		return iter.ReadBool()
-	case ArrayValue:
+	case Array:
 		arr := []interface{}{}
 		iter.ReadArrayCB(func(iter *Iterator) bool {
 			arr = append(arr, iter.Read())
 			return true
 		})
 		return arr
-	case ObjectValue:
+	case Object:
 		obj := map[string]interface{}{}
 		iter.ReadMapCB(func(Iter *Iterator, field string) bool {
 			obj[field] = iter.Read()

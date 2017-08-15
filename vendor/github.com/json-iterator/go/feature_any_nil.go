@@ -9,7 +9,7 @@ func (any *nilAny) LastError() error {
 }
 
 func (any *nilAny) ValueType() ValueType {
-	return NilValue
+	return Nil
 }
 
 func (any *nilAny) MustBeValid() Any {

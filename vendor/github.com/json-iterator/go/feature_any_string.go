@@ -22,7 +22,7 @@ func (any *stringAny) Parse() *Iterator {
 }
 
 func (any *stringAny) ValueType() ValueType {
-	return StringValue
+	return String
 }
 
 func (any *stringAny) MustBeValid() Any {
