@@ -11,6 +11,11 @@ func Dialect() string {
 	return environmentVariable("DB_DIALECT")
 }
 
+// CookieName of the db to use for saving
+func CookieName() string {
+	return environmentVariable("COOKIE_NAME")
+}
+
 // Connection string to connect to preferred db
 func Connection() string {
 	return environmentVariable("DATABASE_URL")

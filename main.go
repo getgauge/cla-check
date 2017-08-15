@@ -20,11 +20,11 @@ var sessionsManager *sessions.Sessions
 // These are some function helpers that you may use if you want
 func init() {
 	// attach a session manager
-	cookieName := "mycustomsessionid"
+	cookieName := configuration.CookieName()
 	// AES only supports key sizes of 16, 24 or 32 bytes.
 	// You either need to provide exactly that amount or you derive the key from what you type in.
-	hashKey := []byte("the-big-and-secret-fash-key-here")
-	blockKey := []byte("lot-secret-of-characters-big-too")
+	hashKey := make([]byte, 32)
+	blockKey := make([]byte, 32)
 	secureCookie := securecookie.New(hashKey, blockKey)
 
 	sessionsManager = sessions.New(sessions.Config{

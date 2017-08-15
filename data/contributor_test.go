@@ -49,6 +49,6 @@ func TestIfUserNotSigned(t *testing.T) {
 
 func TestMain(m *testing.M) {
 	os.Setenv("DB_DIALECT", "sqlite3")
-	os.Setenv("DB_CONNECTION", "test.db")
+	os.Setenv("DATABASE_URL", "test.db")
 	os.Exit(m.Run())
 }
