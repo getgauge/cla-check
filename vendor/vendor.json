@@ -1,10 +1,5 @@
 {
 	"comment": "",
-	"heroku": {
-		"install": [
-			"./..."
-		]
-	},
 	"ignore": "test",
 	"package": [
 		{
@@ -93,14 +88,14 @@
 		{
 			"checksumSHA1": "kJZfFbZGruUDajpfeKXZGrQhg8M=",
 			"path": "github.com/getgauge/cla-check/configuration",
-			"revision": "edbd661610148acc65075304fcc31618be738872",
-			"revisionTime": "2017-08-29T13:57:51Z"
+			"revision": "9d2eba557189aca4914f86f11ee656800e9271d7",
+			"revisionTime": "2017-08-29T14:32:43Z"
 		},
 		{
 			"checksumSHA1": "bsZRVLn+ZcDETugIeUpHyEj05M0=",
 			"path": "github.com/getgauge/cla-check/data",
-			"revision": "edbd661610148acc65075304fcc31618be738872",
-			"revisionTime": "2017-08-29T13:57:51Z"
+			"revision": "9d2eba557189aca4914f86f11ee656800e9271d7",
+			"revisionTime": "2017-08-29T14:32:43Z"
 		},
 		{
 			"checksumSHA1": "ucTBCc7dDRKLGPsYfAzu/Gq63qA=",
