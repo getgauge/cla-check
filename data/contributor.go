@@ -2,6 +2,7 @@ package data
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/jinzhu/gorm"
 	// Pull the postgres drivers
@@ -45,6 +46,6 @@ func Save(user User) {
 // Signed check if a github user is registered with the DB
 func Signed(nickName string) bool {
 	result := User{}
-	database.Where("nick_name = ?", nickName).First(&result)
-	return result.NickName == nickName
+	database.Where("UPPER(nick_name) = ?", strings.ToUpper(nickName)).First(&result)
+	return strings.EqualFold(result.NickName, nickName)
 }

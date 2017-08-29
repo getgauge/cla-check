@@ -41,6 +41,14 @@ func TestIfUserSigned(t *testing.T) {
 	assert.True(t, Signed("IronMan"))
 }
 
+func TestIfUserSignedIgnoreCase(t *testing.T) {
+	Init()
+	defer delete()
+	//TODO: Randomize name
+	Save(User{"Tony Stark", "iron.man@avengers.com", "IronMan", "10", "CEO and Avenger"})
+	assert.True(t, Signed("ironman"))
+}
+
 func TestIfUserNotSigned(t *testing.T) {
 	Init()
 	defer delete()
