@@ -494,5 +494,8 @@
 			"revisionTime": "2017-08-02T21:43:43Z"
 		}
 	],
-	"rootPath": "github.com/getgauge/cla-check"
+	"rootPath": "github.com/getgauge/cla-check",
+	"heroku": {
+        "install" : [ "./..." ]
+    }
 }
