@@ -255,7 +255,6 @@ func main() {
 	port := configuration.Port()
 
 	db := data.Init()
-	data.Seed()
 	defer db.Close()
 
 	goth.UseProviders(

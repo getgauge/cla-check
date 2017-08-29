@@ -2,13 +2,10 @@ package data
 
 import (
 	"fmt"
-	"os"
 	"strings"
 
-	"github.com/gocarina/gocsv"
-	"github.com/jinzhu/gorm"
-	// Pull the postgres drivers
 	"github.com/getgauge/cla-check/configuration"
+	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
@@ -51,22 +48,4 @@ func Signed(nickName string) bool {
 	result := User{}
 	database.Where("UPPER(nick_name) = ?", strings.ToUpper(nickName)).First(&result)
 	return strings.EqualFold(result.NickName, nickName)
-}
-
-// Seed the data
-func Seed() {
-	clientsFile, err := os.OpenFile("cla.csv", os.O_RDWR|os.O_CREATE, os.ModePerm)
-	if err != nil {
-		panic(err)
-	}
-	defer clientsFile.Close()
-
-	clients := []*User{}
-
-	if err := gocsv.UnmarshalFile(clientsFile, &clients); err != nil { // Load clients from file
-		panic(err)
-	}
-	for _, client := range clients {
-		Save(*client)
-	}
 }

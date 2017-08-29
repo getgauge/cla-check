@@ -85,28 +85,22 @@
 			"revisionTime": "2017-08-02T21:43:43Z"
 		},
 		{
-			"checksumSHA1": "W6fm/bEwUnv0GZ+5M6pJyON6unY=",
+			"checksumSHA1": "wFK+UKKlBV2b1EbVaJZPuDTkh+I=",
 			"path": "github.com/getgauge/cla-check",
-			"revision": "41ad7e376395e78de63097050543435ae24148e8",
-			"revisionTime": "2017-08-29T11:58:46Z"
+			"revision": "edbd661610148acc65075304fcc31618be738872",
+			"revisionTime": "2017-08-29T13:57:51Z"
 		},
 		{
 			"checksumSHA1": "kJZfFbZGruUDajpfeKXZGrQhg8M=",
 			"path": "github.com/getgauge/cla-check/configuration",
-			"revision": "2a4253c332f935017ee349b201f896c9cb1ae178",
-			"revisionTime": "2017-08-16T04:37:58Z"
+			"revision": "edbd661610148acc65075304fcc31618be738872",
+			"revisionTime": "2017-08-29T13:57:51Z"
 		},
 		{
-			"checksumSHA1": "Ef+owMuvCuPJ+948mrTxJm1eu3s=",
+			"checksumSHA1": "bsZRVLn+ZcDETugIeUpHyEj05M0=",
 			"path": "github.com/getgauge/cla-check/data",
-			"revision": "101e035ed82618ab29677d58906c9fcd6b1afbdc",
-			"revisionTime": "2017-08-29T13:39:47Z"
-		},
-		{
-			"checksumSHA1": "v94sySR5+2QGt/I4TDrm+AjjuIY=",
-			"path": "github.com/gocarina/gocsv",
-			"revision": "eb0665f781337b21e8e193c6f888e2acaa0ff7e4",
-			"revisionTime": "2017-07-15T13:34:24Z"
+			"revision": "edbd661610148acc65075304fcc31618be738872",
+			"revisionTime": "2017-08-29T13:57:51Z"
 		},
 		{
 			"checksumSHA1": "ucTBCc7dDRKLGPsYfAzu/Gq63qA=",
