@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"time"
 
 	// optionally, used for session's encoder/decoder
 	"github.com/getgauge/cla-check/configuration"
@@ -219,6 +220,7 @@ func authCallbackHandler(ctx context.Context) {
 	}
 
 	data.Save(data.User{
+		Time:        time.Now().Format("_2 Jan 2006"),
 		Name:        user.Name,
 		Email:       user.Email,
 		NickName:    user.NickName,
@@ -253,6 +255,7 @@ func main() {
 	port := configuration.Port()
 
 	db := data.Init()
+	data.Seed()
 	defer db.Close()
 
 	goth.UseProviders(

@@ -97,10 +97,16 @@
 			"revisionTime": "2017-08-16T04:37:58Z"
 		},
 		{
-			"checksumSHA1": "aKa1lvTqNOQTA207Rs1aXbocyUU=",
+			"checksumSHA1": "Ef+owMuvCuPJ+948mrTxJm1eu3s=",
 			"path": "github.com/getgauge/cla-check/data",
-			"revision": "41ad7e376395e78de63097050543435ae24148e8",
-			"revisionTime": "2017-08-29T11:58:46Z"
+			"revision": "3ddbcad86c150ae18b13225a8b5998c1502be469",
+			"revisionTime": "2017-08-29T13:39:47Z"
+		},
+		{
+			"checksumSHA1": "v94sySR5+2QGt/I4TDrm+AjjuIY=",
+			"path": "github.com/gocarina/gocsv",
+			"revision": "eb0665f781337b21e8e193c6f888e2acaa0ff7e4",
+			"revisionTime": "2017-07-15T13:34:24Z"
 		},
 		{
 			"checksumSHA1": "ucTBCc7dDRKLGPsYfAzu/Gq63qA=",
