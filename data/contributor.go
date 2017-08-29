@@ -5,8 +5,8 @@ import (
 
 	"github.com/jinzhu/gorm"
 	// Pull the postgres drivers
+	"github.com/getgauge/cla-check/configuration"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
-	"github.com/zabil/cla-check/configuration"
 )
 
 // User data from Github after signing the CLA

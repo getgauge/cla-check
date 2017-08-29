@@ -4,6 +4,8 @@ import (
 	"errors"
 
 	// optionally, used for session's encoder/decoder
+	"github.com/getgauge/cla-check/configuration"
+	"github.com/getgauge/cla-check/data"
 	"github.com/gorilla/securecookie"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"github.com/kataras/iris"
@@ -11,8 +13,6 @@ import (
 	"github.com/kataras/iris/sessions"
 	"github.com/markbates/goth"
 	"github.com/markbates/goth/providers/github"
-	"github.com/zabil/cla-check/configuration"
-	"github.com/zabil/cla-check/data"
 )
 
 var sessionsManager *sessions.Sessions

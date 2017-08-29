@@ -80,6 +80,24 @@
 			"revisionTime": "2017-08-02T21:43:43Z"
 		},
 		{
+			"checksumSHA1": "W6fm/bEwUnv0GZ+5M6pJyON6unY=",
+			"path": "github.com/getgauge/cla-check",
+			"revision": "2a4253c332f935017ee349b201f896c9cb1ae178",
+			"revisionTime": "2017-08-16T04:37:58Z"
+		},
+		{
+			"checksumSHA1": "kJZfFbZGruUDajpfeKXZGrQhg8M=",
+			"path": "github.com/getgauge/cla-check/configuration",
+			"revision": "2a4253c332f935017ee349b201f896c9cb1ae178",
+			"revisionTime": "2017-08-16T04:37:58Z"
+		},
+		{
+			"checksumSHA1": "ARDgVMvgzo+hI1G3xhOitL5OfMo=",
+			"path": "github.com/getgauge/cla-check/data",
+			"revision": "2a4253c332f935017ee349b201f896c9cb1ae178",
+			"revisionTime": "2017-08-16T04:37:58Z"
+		},
+		{
 			"checksumSHA1": "ucTBCc7dDRKLGPsYfAzu/Gq63qA=",
 			"path": "github.com/gorilla/securecookie",
 			"revision": "e59506cc896acb7f7bf732d4fdf5e25f7ccd8983",
@@ -476,5 +494,5 @@
 			"revisionTime": "2017-08-02T21:43:43Z"
 		}
 	],
-	"rootPath": "github.com/zabil/cla-check"
+	"rootPath": "github.com/getgauge/cla-check"
 }
