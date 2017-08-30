@@ -82,20 +82,20 @@
 		{
 			"checksumSHA1": "Ab/BstVN5sQnP7D58MfELKlOiw8=",
 			"path": "github.com/getgauge/cla-check",
-			"revision": "7f48b2861dd54eae90a83af95fc02e6eb8887594",
-			"revisionTime": "2017-08-29T14:36:34Z"
+			"revision": "48bbfbaf6f71b2ffbeb6c1dccaf5c5c6178a9a14",
+			"revisionTime": "2017-08-30T08:44:02Z"
 		},
 		{
 			"checksumSHA1": "gWUBXHImeG2XRPqgMsu2XKDcbDk=",
 			"path": "github.com/getgauge/cla-check/configuration",
-			"revision": "7f48b2861dd54eae90a83af95fc02e6eb8887594",
-			"revisionTime": "2017-08-29T14:36:34Z"
+			"revision": "48bbfbaf6f71b2ffbeb6c1dccaf5c5c6178a9a14",
+			"revisionTime": "2017-08-30T08:44:02Z"
 		},
 		{
 			"checksumSHA1": "jJUsg765DhsI1g/nYqCCCRnsKbY=",
 			"path": "github.com/getgauge/cla-check/data",
-			"revision": "7f48b2861dd54eae90a83af95fc02e6eb8887594",
-			"revisionTime": "2017-08-29T14:36:34Z"
+			"revision": "48bbfbaf6f71b2ffbeb6c1dccaf5c5c6178a9a14",
+			"revisionTime": "2017-08-30T08:44:02Z"
 		},
 		{
 			"checksumSHA1": "ucTBCc7dDRKLGPsYfAzu/Gq63qA=",
