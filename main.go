@@ -206,6 +206,10 @@ func contributorHandler(ctx context.Context) {
 	ctx.JSON(m)
 }
 
+func contributorsHandler(ctx context.Context) {
+	ctx.JSON(data.GetAll())
+}
+
 func logoutHandler(ctx context.Context) {
 	Logout(ctx)
 	ctx.Redirect("/", iris.StatusTemporaryRedirect)
@@ -271,6 +275,6 @@ func main() {
 	app.Get("/auth/{provider}/callback", authCallbackHandler)
 	app.Get("/logout/{provider}", logoutHandler)
 	app.Get("/contributor", contributorHandler)
-
+	app.Get(configuration.ContributorURL(), contributorsHandler)
 	app.Run(iris.Addr(":" + port))
 }

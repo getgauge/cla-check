@@ -49,3 +49,10 @@ func Signed(nickName string) bool {
 	database.Where("UPPER(nick_name) = ?", strings.ToUpper(nickName)).First(&result)
 	return strings.EqualFold(result.NickName, nickName)
 }
+
+// GetAll find all users
+func GetAll() []User {
+	users := []User{}
+	database.Find(&users)
+	return users
+}

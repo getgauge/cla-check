@@ -41,6 +41,11 @@ func GithubAuthCallback() string {
 	return fmt.Sprintf("%s/auth/github/callback", environmentVariable("CALLBACK_HOST"))
 }
 
+//ContributorURL for heroku to list all contributors
+func ContributorURL() string {
+	return environmentVariable("CONTRIBUTOR_URL")
+}
+
 func environmentVariable(variable string) string {
 	value := os.Getenv(variable)
 	if value == "" {
