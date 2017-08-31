@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"net/http"
 	"time"
 
 	// optionally, used for session's encoder/decoder
@@ -17,6 +18,10 @@ import (
 )
 
 var sessionsManager *sessions.Sessions
+
+const (
+	refererURL = "referer_url"
+)
 
 // These are some function helpers that you may use if you want
 func init() {
@@ -229,9 +234,14 @@ func authCallbackHandler(ctx context.Context) {
 		Email:       user.Email,
 		NickName:    user.NickName,
 		UserID:      user.UserID,
-		Description: user.Description})
+		Description: user.Description,
+	})
 
-	ctx.ViewData("", user)
+	td := make(map[string]string, 0)
+	td["Name"] = user.Name
+	td["NickName"] = user.NickName
+	td["Referer"] = ctx.GetCookie(refererURL)
+	ctx.ViewData("", td)
 	if err := ctx.View("user.html"); err != nil {
 		ctx.Writef("%v", err)
 	}
@@ -240,7 +250,11 @@ func authCallbackHandler(ctx context.Context) {
 func providerHandler(ctx context.Context) {
 	// try to get the user without re-authenticating
 	if u, err := CompleteUserAuth(ctx); err == nil {
-		ctx.ViewData("", u)
+		td := make(map[string]string, 0)
+		td["Name"] = u.Name
+		td["NickName"] = u.NickName
+		td["Referer"] = ctx.GetCookie(refererURL)
+		ctx.ViewData("", td)
 		if err := ctx.View("user.html"); err != nil {
 			ctx.Writef("%v", err)
 		}
@@ -249,7 +263,18 @@ func providerHandler(ctx context.Context) {
 	}
 }
 
+func setReferer(ctx context.Context) {
+	c := http.Cookie{
+		Name:  refererURL,
+		Value: ctx.Request().Referer(),
+	}
+	ctx.SetCookie(&c)
+}
+
 func defaultHandler(ctx context.Context) {
+	if ctx.Request().Referer() != "" {
+		setReferer(ctx)
+	}
 	if err := ctx.View("cla.html"); err != nil {
 		ctx.Writef("%v", err)
 	}

@@ -9,5 +9,10 @@
         <div class="center">
             <h3>{{.Name}} ({{.NickName}})</h3>
         </div>
+        {{if .Referer}}
+            <div class="center">
+                <a href="{{.Referer}}">Go Back</a>
+            </div>
+        {{end}}
     </div>
 </div>
