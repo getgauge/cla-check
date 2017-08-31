@@ -46,6 +46,11 @@ func ContributorURL() string {
 	return environmentVariable("CONTRIBUTOR_URL")
 }
 
+//AccessToken for creating comments on pr's and issues
+func AccessToken() string {
+	return environmentVariable("ACCESS_TOKEN")
+}
+
 func environmentVariable(variable string) string {
 	value := os.Getenv(variable)
 	if value == "" {

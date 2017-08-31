@@ -6,6 +6,7 @@ import (
 	"time"
 
 	// optionally, used for session's encoder/decoder
+	"github.com/getgauge/cla-check/comment"
 	"github.com/getgauge/cla-check/configuration"
 	"github.com/getgauge/cla-check/data"
 	"github.com/gorilla/securecookie"
@@ -220,6 +221,14 @@ func logoutHandler(ctx context.Context) {
 	ctx.Redirect("/", iris.StatusTemporaryRedirect)
 }
 
+func createTemplateData(u goth.User, refURL string) map[string]string {
+	td := make(map[string]string, 0)
+	td["Name"] = u.Name
+	td["NickName"] = u.NickName
+	td["Referer"] = refURL
+	return td
+}
+
 func authCallbackHandler(ctx context.Context) {
 	user, err := CompleteUserAuth(ctx)
 	if err != nil {
@@ -236,12 +245,10 @@ func authCallbackHandler(ctx context.Context) {
 		UserID:      user.UserID,
 		Description: user.Description,
 	})
-
-	td := make(map[string]string, 0)
-	td["Name"] = user.Name
-	td["NickName"] = user.NickName
-	td["Referer"] = ctx.GetCookie(refererURL)
+	ru := ctx.GetCookie(refererURL)
+	td := createTemplateData(user, ru)
 	ctx.ViewData("", td)
+	comment.CreateRecheckComment(ru)
 	if err := ctx.View("user.html"); err != nil {
 		ctx.Writef("%v", err)
 	}
@@ -250,10 +257,7 @@ func authCallbackHandler(ctx context.Context) {
 func providerHandler(ctx context.Context) {
 	// try to get the user without re-authenticating
 	if u, err := CompleteUserAuth(ctx); err == nil {
-		td := make(map[string]string, 0)
-		td["Name"] = u.Name
-		td["NickName"] = u.NickName
-		td["Referer"] = ctx.GetCookie(refererURL)
+		td := createTemplateData(u, ctx.GetCookie(refererURL))
 		ctx.ViewData("", td)
 		if err := ctx.View("user.html"); err != nil {
 			ctx.Writef("%v", err)
