@@ -80,28 +80,28 @@
 			"revisionTime": "2017-08-02T21:43:43Z"
 		},
 		{
-			"checksumSHA1": "dsh5d255ZSqcKkhsxx213H4F7GM=",
+			"checksumSHA1": "fXviUe0BvMvn2rXLNd/mOBzR6h0=",
 			"path": "github.com/getgauge/cla-check",
-			"revision": "0413a6d28cac38b23a198c08191815d72d085956",
-			"revisionTime": "2017-08-31T14:29:20Z"
+			"revision": "26ca3afb79a40cabaa2c4b2c5a06229976bef035",
+			"revisionTime": "2017-08-31T14:38:10Z"
 		},
 		{
 			"checksumSHA1": "BPFBc/wkVvk8AkpOtlozVx2k+0c=",
 			"path": "github.com/getgauge/cla-check/comment",
-			"revision": "0413a6d28cac38b23a198c08191815d72d085956",
-			"revisionTime": "2017-08-31T14:29:20Z"
+			"revision": "26ca3afb79a40cabaa2c4b2c5a06229976bef035",
+			"revisionTime": "2017-08-31T14:38:10Z"
 		},
 		{
 			"checksumSHA1": "/qdSbSDOvH5XYOMNQiJqyCimmIE=",
 			"path": "github.com/getgauge/cla-check/configuration",
-			"revision": "0413a6d28cac38b23a198c08191815d72d085956",
-			"revisionTime": "2017-08-31T14:29:20Z"
+			"revision": "26ca3afb79a40cabaa2c4b2c5a06229976bef035",
+			"revisionTime": "2017-08-31T14:38:10Z"
 		},
 		{
 			"checksumSHA1": "jJUsg765DhsI1g/nYqCCCRnsKbY=",
 			"path": "github.com/getgauge/cla-check/data",
-			"revision": "0413a6d28cac38b23a198c08191815d72d085956",
-			"revisionTime": "2017-08-31T14:29:20Z"
+			"revision": "26ca3afb79a40cabaa2c4b2c5a06229976bef035",
+			"revisionTime": "2017-08-31T14:38:10Z"
 		},
 		{
 			"checksumSHA1": "1CDGnLLaTMUWepXhVU8MGU043/w=",
