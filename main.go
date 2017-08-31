@@ -248,7 +248,10 @@ func authCallbackHandler(ctx context.Context) {
 	ru := ctx.GetCookie(refererURL)
 	td := createTemplateData(user, ru)
 	ctx.ViewData("", td)
-	comment.CreateRecheckComment(ru)
+	if comment.CreateRecheckComment(ru) == nil {
+		ctx.RemoveCookie(refererURL)
+	}
+
 	if err := ctx.View("user.html"); err != nil {
 		ctx.Writef("%v", err)
 	}
