@@ -6,6 +6,7 @@ import (
 
 	"github.com/getgauge/cla-check/configuration"
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
 // User data from Github after signing the CLA
