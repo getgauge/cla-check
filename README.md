@@ -1,5 +1,5 @@
 # cla-check
-Cla-check is an application which serves `Gauge` CLA page. With the integration of [cla-bot](https://github.com/ColinEberhardt/cla-bot) it checks if a contributors of a Pull Request have signed the CLA or not.
+Cla-check is an application which serves `Gauge` CLA page. With the integration of [cla-bot](https://github.com/ColinEberhardt/cla-bot) it checks if all the commiteers of a Pull Request have signed the CLA or not.
 If all the commiters in PR have signed the CLA it adds `cla-signed` label to PR.
 
 ## Running Locally
