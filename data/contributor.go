@@ -6,17 +6,16 @@ import (
 
 	"github.com/getgauge/cla-check/configuration"
 	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
 // User data from Github after signing the CLA
 type User struct {
-	Time        string `csv:"time"`
-	Name        string `csv:"name"`
-	Email       string `csv:"email"`
-	NickName    string `csv:"nick_name"`
-	UserID      string `csv:"-"`
-	Description string `csv:"Something"`
+	Time        string
+	Name        string
+	Email       string
+	NickName    string
+	UserID      string
+	Description string
 }
 
 var database *gorm.DB

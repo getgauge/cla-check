@@ -80,30 +80,6 @@
 			"revisionTime": "2017-08-02T21:43:43Z"
 		},
 		{
-			"checksumSHA1": "fXviUe0BvMvn2rXLNd/mOBzR6h0=",
-			"path": "github.com/getgauge/cla-check",
-			"revision": "26ca3afb79a40cabaa2c4b2c5a06229976bef035",
-			"revisionTime": "2017-08-31T14:38:10Z"
-		},
-		{
-			"checksumSHA1": "BPFBc/wkVvk8AkpOtlozVx2k+0c=",
-			"path": "github.com/getgauge/cla-check/comment",
-			"revision": "26ca3afb79a40cabaa2c4b2c5a06229976bef035",
-			"revisionTime": "2017-08-31T14:38:10Z"
-		},
-		{
-			"checksumSHA1": "/qdSbSDOvH5XYOMNQiJqyCimmIE=",
-			"path": "github.com/getgauge/cla-check/configuration",
-			"revision": "26ca3afb79a40cabaa2c4b2c5a06229976bef035",
-			"revisionTime": "2017-08-31T14:38:10Z"
-		},
-		{
-			"checksumSHA1": "jJUsg765DhsI1g/nYqCCCRnsKbY=",
-			"path": "github.com/getgauge/cla-check/data",
-			"revision": "26ca3afb79a40cabaa2c4b2c5a06229976bef035",
-			"revisionTime": "2017-08-31T14:38:10Z"
-		},
-		{
 			"checksumSHA1": "1CDGnLLaTMUWepXhVU8MGU043/w=",
 			"path": "github.com/google/go-github/github",
 			"revision": "7b3c4bb7936d75d94fcd3562708fccee533d74b2",

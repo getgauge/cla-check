@@ -17,7 +17,7 @@ func delete() {
 func TestSave(t *testing.T) {
 	Init()
 	defer delete()
-	Save(User{"Tony Stark", "iron.man@avengers.com", "IronMan", "10", "CEO and Avenger"})
+	Save(User{"", "Tony Stark", "iron.man@avengers.com", "IronMan", "10", "CEO and Avenger"})
 	savedUser := User{}
 	database.Where("nick_name = ?", "IronMan").First(&savedUser)
 	assert.Equal(t, "IronMan", savedUser.NickName)
@@ -26,8 +26,8 @@ func TestSave(t *testing.T) {
 func TestShouldNotSaveUserWithTheSameIDTwice(t *testing.T) {
 	Init()
 	defer delete()
-	Save(User{"Tony Stark", "iron.man@avengers.com", "IronMan", "10", "CEO and Avenger"})
-	Save(User{"Tony Stark", "iron.man@avengers.com", "IronMan", "10", "CEO and Avenger"})
+	Save(User{"", "Tony Stark", "iron.man@avengers.com", "IronMan", "10", "CEO and Avenger"})
+	Save(User{"", "Tony Stark", "iron.man@avengers.com", "IronMan", "10", "CEO and Avenger"})
 	var count int
 	database.Model(&User{}).Where("nick_name = ?", "IronMan").Count(&count)
 	assert.Equal(t, 1, count)
@@ -37,7 +37,7 @@ func TestIfUserSigned(t *testing.T) {
 	Init()
 	defer delete()
 	//TODO: Randomize name
-	Save(User{"Tony Stark", "iron.man@avengers.com", "IronMan", "10", "CEO and Avenger"})
+	Save(User{"", "Tony Stark", "iron.man@avengers.com", "IronMan", "10", "CEO and Avenger"})
 	assert.True(t, Signed("IronMan"))
 }
 
@@ -45,7 +45,7 @@ func TestIfUserSignedIgnoreCase(t *testing.T) {
 	Init()
 	defer delete()
 	//TODO: Randomize name
-	Save(User{"Tony Stark", "iron.man@avengers.com", "IronMan", "10", "CEO and Avenger"})
+	Save(User{"", "Tony Stark", "iron.man@avengers.com", "IronMan", "10", "CEO and Avenger"})
 	assert.True(t, Signed("ironman"))
 }
 
