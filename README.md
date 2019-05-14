@@ -1,4 +1,7 @@
 # CLA checker
+
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
+
 `cla-check` promtps a contributor to sign the Gauge Contributor License agreement. It is an end-point to the excellent [cla-bot](https://github.com/ColinEberhardt/cla-bot). It's triggered on PR submission label's and adds a `cla-signed` label for authors who've accepted the CLA. 
 
 ## Running Locally
